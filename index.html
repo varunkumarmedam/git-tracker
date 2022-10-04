@@ -1,0 +1,55 @@
+<html>
+
+<head>
+    <title>Git Tracker</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.0/dist/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <style>
+        .repo {
+            box-shadow: 5px 5px 10px 0px rgba(184, 184, 184, 1);
+            border-radius: 5px;
+            margin: 15px;
+            padding: 10px;
+        }
+
+        .active-repo {
+            background-color: grey;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="d-flex w-100 align-items-center justify-content-center mt-3">
+            <input placeholder="Paste your public github URL" class="form-control col-sm-6 " v-model="input" />
+            <button type="button" class="btn btn-success" @click="search">Search & Add</button>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div v-for="repo in repos" class="repo"
+                    :class="{'active-repo':activeRepo.metadata?.full_name==repo.full_name}"
+                    @click="repoClkd(repo.full_name)">
+                    <div>{{repo.full_name}}</div>
+                    <div>{{repo.description}}</div>
+                </div>
+            </div>
+            <div class="col-sm-8 p-5">
+                <div v-if="activeRepo.branches">Branches -
+                    {{activeRepo?.branches?.map(repo=>repo.name).join(",")}}</div>
+                <div v-if="activeRepo.issues">Issues -
+                    {{activeRepo?.issues.length}}</div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>
